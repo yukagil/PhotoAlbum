@@ -34,15 +34,15 @@ class MyAdaptor : RecyclerView.Adapter<MyAdaptor.MyViewHolder>() {
     override fun getItemCount() = imageUrls.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Picasso.with(holder.itemCell.context)
+        Picasso.with(holder.itemImage.context)
                 .load(imageUrls[position])
-                .into(holder.itemCell)
+                .into(holder.itemImage)
 
         holder.textView.text = position.toString()
     }
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.itemText)
-        val itemCell: ImageView = view.findViewById(R.id.itemCell)
+        val itemImage: ImageView = view.findViewById(R.id.itemImage)
     }
 }
