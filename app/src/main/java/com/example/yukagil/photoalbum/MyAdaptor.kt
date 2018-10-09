@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import com.squareup.picasso.Picasso
 
 class MyAdaptor : RecyclerView.Adapter<MyAdaptor.MyViewHolder>() {
@@ -36,9 +37,12 @@ class MyAdaptor : RecyclerView.Adapter<MyAdaptor.MyViewHolder>() {
         Picasso.with(holder.itemCell.context)
                 .load(imageUrls[position])
                 .into(holder.itemCell)
+
+        holder.textView.text = position.toString()
     }
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val textView: TextView = view.findViewById(R.id.itemText)
         val itemCell: ImageView = view.findViewById(R.id.itemCell)
     }
 }
