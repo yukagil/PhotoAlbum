@@ -10,22 +10,7 @@ import android.widget.TextView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_cell.view.*
 
-class MyAdaptor : RecyclerView.Adapter<MyAdaptor.MyViewHolder>() {
-
-    private val imageUrls = arrayOf(
-            "https://picsum.photos/600/400?image=500",
-            "https://picsum.photos/600/400?image=501",
-            "https://picsum.photos/600/400?image=502",
-            "https://picsum.photos/600/400?image=503",
-            "https://picsum.photos/600/400?image=504",
-            "https://picsum.photos/600/400?image=505",
-            "https://picsum.photos/600/400?image=506",
-            "https://picsum.photos/600/400?image=507",
-            "https://picsum.photos/600/400?image=508",
-            "https://picsum.photos/600/400?image=509",
-            "https://picsum.photos/600/400?image=510"
-    )
-
+class MyAdaptor(val list: List<Image> = emptyList()) : RecyclerView.Adapter<MyAdaptor.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cell, parent, false)
@@ -33,7 +18,7 @@ class MyAdaptor : RecyclerView.Adapter<MyAdaptor.MyViewHolder>() {
 
         view.itemImage.setOnClickListener {
             Intent(parent.context, PhotoViewer::class.java).apply {
-                putExtra("imageUrl", imageUrls[holder.adapterPosition])
+                putExtra("imageUrl", "https://picsum.photos/600/400?image=${list[holder.adapterPosition].id}")
                 parent.context.startActivity(this)
             }
         }
@@ -41,11 +26,11 @@ class MyAdaptor : RecyclerView.Adapter<MyAdaptor.MyViewHolder>() {
         return holder
     }
 
-    override fun getItemCount() = imageUrls.size
+    override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         Picasso.with(holder.itemImage.context)
-                .load(imageUrls[position])
+                .load("https://picsum.photos/600/400?image=${list[holder.adapterPosition].id}")
                 .into(holder.itemImage)
 
         holder.textView.text = position.toString()

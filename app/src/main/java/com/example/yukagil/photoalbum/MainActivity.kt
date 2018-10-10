@@ -1,13 +1,17 @@
 package com.example.yukagil.photoalbum
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,12 +20,32 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        recyclerView.adapter = MyAdaptor()
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        fab.setOnClickListener {
+            val retrofit = Retrofit.Builder()
+                    .baseUrl("https://picsum.photos/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+
+            val service = retrofit.create(PicsumService::class.java)
+            val call = service.getImages()
+            call.enqueue(object : Callback<List<Image>> {
+                override fun onFailure(call: Call<List<Image>>, t: Throwable) {
+                }
+
+                override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
+                    if (response.isSuccessful) {
+                        val list = response.body()
+                        list?.apply {
+                            recyclerView.adapter = MyAdaptor(this)
+                        }
+
+                    } else {
+                        // Error Message here
+                    }
+                }
+            })
         }
     }
 
