@@ -1,5 +1,6 @@
 package com.example.yukagil.photoalbum
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.item_cell.view.*
 
 class MyAdaptor : RecyclerView.Adapter<MyAdaptor.MyViewHolder>() {
 
@@ -27,8 +29,16 @@ class MyAdaptor : RecyclerView.Adapter<MyAdaptor.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cell, parent, false)
+        val holder = MyViewHolder(view)
 
-        return MyViewHolder(view)
+        view.itemImage.setOnClickListener{ v ->
+            val intent = Intent(parent.context, PhotoViewer::class.java)
+            intent.putExtra("imageUrl", imageUrls[holder.adapterPosition])
+            v.context.startActivity(intent)
+
+        }
+
+        return holder
     }
 
     override fun getItemCount() = imageUrls.size
