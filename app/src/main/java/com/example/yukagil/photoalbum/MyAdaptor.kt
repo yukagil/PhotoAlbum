@@ -31,11 +31,11 @@ class MyAdaptor : RecyclerView.Adapter<MyAdaptor.MyViewHolder>() {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cell, parent, false)
         val holder = MyViewHolder(view)
 
-        view.itemImage.setOnClickListener{ v ->
-            val intent = Intent(parent.context, PhotoViewer::class.java)
-            intent.putExtra("imageUrl", imageUrls[holder.adapterPosition])
-            v.context.startActivity(intent)
-
+        view.itemImage.setOnClickListener {
+            Intent(parent.context, PhotoViewer::class.java).apply {
+                putExtra("imageUrl", imageUrls[holder.adapterPosition])
+                parent.context.startActivity(this)
+            }
         }
 
         return holder
