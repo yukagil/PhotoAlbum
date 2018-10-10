@@ -11,8 +11,6 @@ class PhotoViewer : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo_viewer)
 
-        supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
-
         val imageUrl = intent.getStringExtra("imageUrl")
         Picasso.with(this)
                 .load(imageUrl)
