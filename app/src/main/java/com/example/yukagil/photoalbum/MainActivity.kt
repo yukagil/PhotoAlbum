@@ -1,10 +1,12 @@
 package com.example.yukagil.photoalbum
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -20,33 +22,40 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        fab.setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+        }
+
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-        fab.setOnClickListener {
-            val retrofit = Retrofit.Builder()
-                    .baseUrl("https://picsum.photos/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
+        activityCircle.visibility = View.VISIBLE
 
-            val service = retrofit.create(PicsumService::class.java)
-            val call = service.getImages()
-            call.enqueue(object : Callback<List<Image>> {
-                override fun onFailure(call: Call<List<Image>>, t: Throwable) {
-                }
+        val retrofit = Retrofit.Builder()
+                .baseUrl("https://picsum.photos/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
 
-                override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
-                    if (response.isSuccessful) {
-                        val list = response.body()
-                        list?.apply {
-                            recyclerView.adapter = MyAdaptor(this)
-                        }
+        val service = retrofit.create(PicsumService::class.java)
+        val call = service.getImages()
+        call.enqueue(object : Callback<List<Image>> {
+            override fun onFailure(call: Call<List<Image>>, t: Throwable) {
+                activityCircle.visibility = View.GONE
+            }
 
-                    } else {
-                        // Error Message here
+            override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
+                if (response.isSuccessful) {
+                    val list = response.body()
+                    list?.apply {
+                        recyclerView.swapAdapter(MyAdaptor(this), false)
                     }
+
+                } else {
+                    // Error Message here
                 }
-            })
-        }
+                activityCircle.visibility = View.GONE
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
