@@ -11,9 +11,9 @@ class PhotoViewer : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo_viewer)
 
-        val imageUrl = intent.getStringExtra("imageUrl")
+        val imageObject = intent.getParcelableExtra<Image>("imageObject")
         Picasso.with(this)
-                .load(imageUrl)
+                .load("https://picsum.photos/600/400?image=${imageObject.id}")
                 .into(imageView)
     }
 }

@@ -1,33 +1,16 @@
 package com.example.yukagil.photoalbum
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-class Image {
-
-    @SerializedName("format")
-    @Expose
-    var format: String? = null
-    @SerializedName("width")
-    @Expose
-    var width: Int? = null
-    @SerializedName("height")
-    @Expose
-    var height: Int? = null
-    @SerializedName("filename")
-    @Expose
-    var filename: String? = null
-    @SerializedName("id")
-    @Expose
-    var id: Int? = null
-    @SerializedName("author")
-    @Expose
-    var author: String? = null
-    @SerializedName("author_url")
-    @Expose
-    var authorUrl: String? = null
-    @SerializedName("post_url")
-    @Expose
-    var postUrl: String? = null
-
-}
+@Parcelize
+data class Image(
+        val format: String?,
+        val width: Number?,
+        val height: Number?,
+        val filename: String?,
+        val id: Number?,
+        val author: String?,
+        val author_url: String?,
+        val post_url: String?
+) : Parcelable

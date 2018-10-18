@@ -18,7 +18,7 @@ class MyAdaptor(val list: List<Image> = emptyList()) : RecyclerView.Adapter<MyAd
 
         view.itemImage.setOnClickListener {
             Intent(parent.context, PhotoViewer::class.java).apply {
-                putExtra("imageUrl", "https://picsum.photos/600/400?image=${list[holder.adapterPosition].id}")
+                putExtra("imageObject", list[holder.adapterPosition])
                 parent.context.startActivity(this)
             }
         }
