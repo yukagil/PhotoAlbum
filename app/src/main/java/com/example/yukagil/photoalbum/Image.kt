@@ -13,4 +13,6 @@ data class Image(
         val author: String?,
         val author_url: String?,
         val post_url: String?
-) : Parcelable
+) : Parcelable {
+    fun getImageUrl() = "https://picsum.photos/600/400?image=${this.id}"
+}

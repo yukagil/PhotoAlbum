@@ -19,7 +19,7 @@ class PhotoViewer : AppCompatActivity() {
 
         imageObject = intent.getParcelableExtra<Image>("imageObject")
         Picasso.with(this)
-                .load("https://picsum.photos/600/400?image=${imageObject.id}")
+                .load(imageObject.getImageUrl())
                 .into(imageView)
     }
 
@@ -33,7 +33,7 @@ class PhotoViewer : AppCompatActivity() {
             R.id.share -> {
                 val intent = Intent(Intent.ACTION_SEND)
                         .setType("image/png")
-                        .putExtra(Intent.EXTRA_TEXT, imageObject.author_url)
+                        .putExtra(Intent.EXTRA_TEXT, imageObject.getImageUrl())
                 startActivity(intent)
 
                 true
